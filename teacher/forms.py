@@ -92,7 +92,17 @@ class PostForm(forms.ModelForm):
         
 
         
+class UserForm(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ['first_name', 'last_name', 'email']
 
+
+class ProfileFormTeacher(forms.ModelForm):
+    class Meta:
+        model = Teacher
+        fields = "__all__"    
+        exclude = ['user']
 
 
 

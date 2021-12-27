@@ -62,12 +62,12 @@
 
 <div class="post-container">
 
-	<a class="btn btn-sm btn-primary" href="{% url 'HomeStudent' %}">&laquo Back to Posts</a>
-{% comment %} 
-	{% if request.user.is_staff %}
+	<a class="btn btn-sm btn-primary" href="{% url 'HomeTeacher' %}">&laquo Back to Posts</a>
+
+	{% if request.user.is_teacher %}
 		 <a class="btn btn-sm btn-primary" href="{% url 'update_post' post.slug %}">Edit</a>
 		 <a class="btn btn-sm btn-danger" href="{% url 'delete_post' post.slug %}">Delete</a>
-	{% endif %} {% endcomment %}
+	{% endif %} 
 
 	<img class="featured_image" src="{{post.image.url}}">
 
@@ -80,16 +80,9 @@
 	<h4>{{post.level}}</h4>
 	<h4>{{post.division}}</h4>
 	<h4>{{post.Annee}}</h4>	
-	<label for="title">Groups</label>
-<select id="title" name="title">
- <option value="" selected>Please choose</option>
 	{% for group in post.groups.all  %}
- <option value="{{group}}">{{group.Days}} // from : {{group.starttime}}   to : {{group.endstime}}</option>
- {% endfor %}
-</select>
-
-	<h1></h1>
-	
+	<h1>{{group.Days}}</h1>
+	{% endfor %}
 	<br>
 
 	<p>{{post.body|safe}}</p>

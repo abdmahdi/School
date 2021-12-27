@@ -2,25 +2,68 @@
 <div class="nav-wrapper">
 
 	<!-- Link around dots-wrapper added after tutorial video -->
-	<a href="{% url 'Home' %}">
-		<div class="dots-wrapper">
-			<div id="dot-1" class="browser-dot"></div>
-			<div id="dot-2" class="browser-dot"></div>
-			<div id="dot-3" class="browser-dot"></div>
-		</div>
-	</a>
+{% if request.user.is_student  %}
+<a href="{% url 'HomeStudent' %}">
+	<div class="dots-wrapper">
+		<div id="dot-1" class="browser-dot"></div>
+		<div id="dot-2" class="browser-dot"></div>
+		<div id="dot-3" class="browser-dot"></div>
+	</div>
+</a>
+
+{% elif request.user.is_teacher %}
+<a href="{% url 'HomeTeacher' %}">
+	<div class="dots-wrapper">
+		<div id="dot-1" class="browser-dot"></div>
+		<div id="dot-2" class="browser-dot"></div>
+		<div id="dot-3" class="browser-dot"></div>
+	</div>
+</a>
+{% elif  request.user.is_school %}
+
+<a href="{% url 'HomeSchool' %}">
+	<div class="dots-wrapper">
+		<div id="dot-1" class="browser-dot"></div>
+		<div id="dot-2" class="browser-dot"></div>
+		<div id="dot-3" class="browser-dot"></div>
+	</div>
+</a>
+{% else %}
+<a href="{% url 'Home' %}">
+	<div class="dots-wrapper">
+		<div id="dot-1" class="browser-dot"></div>
+		<div id="dot-2" class="browser-dot"></div>
+		<div id="dot-3" class="browser-dot"></div>
+	</div>
+</a>
+
+{% endif %}
 	
 
-	{% comment %} <ul id="navigation">
+	 <ul id="navigation">
 		<h2  id="close-btn" style="text-align: center">X</h2>
-		<li><a href="{% url 'Home' %}#contact">Contact</a></li>
-		{% if request.user.is_authenticated %}
-			<li><a href="{% url 'account' %}"> Account</a></li>
-			<li><a href="{% url 'logout' %}">Logout</a></li>
+		
+		{% if request.user.is_authenticated and request.user.is_student %}
+		<li><a href="{% url 'Posts' %}">Posts</a></li>
+		<li><a href="{% url 'StudentAccount' %}">account</a></li>
+		
+			<li><a href="{% url 'logoutStudent' %}">Logout</a></li>
+		{% elif request.user.is_authenticated and request.user.is_teacher %}
+		<li><a href="{% url 'PostsTeacher' %}">Posts</a></li>
+        <li><a href="{% url 'createPost' %}">Create Post</a></li>
+		<li><a href="{% url 'TeacherAccount' %}">account</a></li>
+		<li><a href="{% url 'logoutTeacher' %}">Logout</a></li>
+		{% elif request.user.is_authenticated and request.user.is_school %}
+		<li><a href="{% url 'PostsTeacher' %}">Posts</a></li>
+        <li><a href="{% url 'createPost' %}">Create Post</a></li>
+		<li><a href="{% url 'TeacherAccount' %}">account</a></li>
+		<li><a href="{% url 'logoutTeacher' %}">Logout</a></li>
 		{% else %}
-			<li><a href="{% url 'loginStudent' %}">Login</a></li>
+		<li><a href="{% url 'HomeTeacher' %}">Teacher</a></li>
+        <li><a href="{% url 'HomeStudent' %}">Student</a></li>
+		<li><a href="{% url 'HomeSchool' %}">School</a></li>
 		{% endif %}
-	</ul> {% endcomment %}
+	</ul>
 
 	<img id="menu-icon" src="{% static 'images/menu.png' %}">
 

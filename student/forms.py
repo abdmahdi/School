@@ -74,11 +74,17 @@ class UserSignUp(UserCreationForm):
         return user
     
 
-# class Profile(ModelForm):
-#     class Meta:
-#         model = Student
-#         fields = "__all__"    
-#         exclude = ['user']
+class UserForm(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ['first_name', 'last_name', 'email']
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = "__all__"    
+        exclude = ['user']
         
 
 class LoginForm(AuthenticationForm):

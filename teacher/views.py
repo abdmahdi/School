@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User,auth
 from django.contrib.auth import login
 from django.views.generic import *
-from student.forms import *
+from teacher.forms import *
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
 from django.contrib.auth import logout, login, authenticate
@@ -99,7 +99,7 @@ def updatePost(request, slug):
 		form = PostForm(request.POST, request.FILES, instance=post)
 		if form.is_valid():
 			form.save()
-		return redirect('posts')
+		return redirect('HomeTeacher')
 
 	context = {'form':form}
 	return render(request, 'teacher/post_teacher.html', context)
@@ -110,25 +110,56 @@ def deletePost(request, slug):
 
 	if request.method == 'POST':
 		post.delete()
-		return redirect('posts')
+		return redirect('HomeTeacher')
 	context = {'item':post}
 	return render(request, 'teacher/delete.html', context)
 
 
 
 
+def logoutUser(request):
+	logout(request)
+	return redirect('HomeSchool')    
 
 
 
 
+  
+
+@teacher_required
+def TeacherAccount(request):
+	profile = request.user.teacher
+
+	context = {'profile':profile}
+	return render(request, 'teacher/accountTeacher.html', context)
+
+@teacher_required
+def updateProfileTeacher(request):
+	user = request.user
+	profile = user.teacher
+	form = ProfileFormTeacher(instance=profile)
+	if request.method == 'POST':
+		user_form = UserForm(request.POST, instance=user)
+		if user_form.is_valid():
+			user_form.save()
+
+		form = ProfileFormTeacher(request.POST, request.FILES, instance=profile)
+		if form.is_valid():
+			form.save()
+			return redirect('TeacherAccount')
+
+
+	context = {'form':form}
+	return render(request, 'teacher/teacher_form.html', context)
 
 
 
 
-
-
-
-
+@teacher_required
+def post(request, slug):
+	post = PostTeacher.objects.get(slug=slug, teacher = request.user.teacher)
+	context = {'post':post}
+	return render(request, 'teacher/postteacher.html', context)
   
 
 @teacher_required
@@ -150,7 +181,7 @@ def creategroup(request):
 
 
 @teacher_required
-def hometeacher(request):
+def poststeacher(request):
 	posts = PostTeacher.objects.filter(teacher = request.user.teacher)
 	myFilter = PostFilter(request.GET, queryset=posts)
 	posts = myFilter.qs
@@ -167,4 +198,10 @@ def hometeacher(request):
 		posts = paginator.page(paginator.num_pages)
 
 	context = {'posts':posts, 'myFilter':myFilter}
-	return render(request, 'teacher/HomeTeacher.html', context)
+	return render(request, 'teacher/PostsTeacher.html', context)
+
+
+
+@teacher_required
+def hometeacher(request):
+    return render(request, 'teacher/HomeTeacher.html')

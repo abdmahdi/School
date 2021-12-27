@@ -14,12 +14,15 @@ from teacher.models import PostTeacher
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from student.filters import *
 
-
+@student_required
+def homestudent(request):
+    return render(request, 'student/HomeStudent.html')
+    
 
 # Create your views here.
 @student_required
-def homestudent(request):
-	posts = PostTeacher.objects.filter()
+def posts(request):
+	posts = PostTeacher.objects.filter(active=True)
 	myFilter = PostFilter(request.GET, queryset=posts)
 	posts = myFilter.qs
 
@@ -35,7 +38,9 @@ def homestudent(request):
 		posts = paginator.page(paginator.num_pages)
 
 	context = {'posts':posts, 'myFilter':myFilter}
-	return render(request, 'student/HomeStudent.html', context)
+	return render(request, 'student/posts.html', context)
+
+
 
 @student_required
 def post(request, slug):
@@ -91,4 +96,35 @@ def loginPage(request):
 	context = {}
 	return render(request, 'student/login.html', context)
 
-    
+
+
+
+def logoutUser(request):
+	logout(request)
+	return redirect('loginStudent')    
+
+@student_required
+def StudentAccount(request):
+	profile = request.user.student
+
+	context = {'profile':profile}
+	return render(request, 'student/account.html', context)
+
+@student_required
+def updateProfile(request):
+	user = request.user
+	profile = user.student
+	form = ProfileForm(instance=profile)
+	if request.method == 'POST':
+		user_form = UserForm(request.POST, instance=user)
+		if user_form.is_valid():
+			user_form.save()
+
+		form = ProfileForm(request.POST, request.FILES, instance=profile)
+		if form.is_valid():
+			form.save()
+			return redirect('StudentAccount')
+
+
+	context = {'form':form}
+	return render(request, 'student/profile_form.html', context)

@@ -51,6 +51,9 @@ class PostTeacher(models.Model):
    slug = models.SlugField(null=True, blank=True)
    groups = models.ManyToManyField(Groupe)
    
+   def __str__(self):
+       return self.title 
+   
    def save(self, *args, **kwargs):
        if self.slug == None:
            slug = slugify(self.title)

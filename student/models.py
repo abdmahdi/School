@@ -16,3 +16,6 @@ class Student(models.Model):
     division = models.ForeignKey(Division, on_delete=models.DO_NOTHING,null=True,unique=False)
     annee = models.ForeignKey(Annee, on_delete=models.DO_NOTHING,null=True,unique=False)
     matier = models.ManyToManyField(Matier, related_name='preferer',unique=False)
+    
+    def __str__(self):
+        return f"Mr. {self.first_name}   {self.last_name}   "
