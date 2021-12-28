@@ -23,10 +23,12 @@ html, body{
 	padding: 0;
 	margin: 0;
 	scroll-behavior: smooth;
+	background-color: #192734;
 }
 
 body *{
 	transition: 0.3s;
+	
 }
 
 
