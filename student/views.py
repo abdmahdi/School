@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.models import User,auth
+from django.contrib.auth.models import Group, User,auth
 from django.contrib.auth import login
 from django.views.generic import *
 from student.forms import *
@@ -42,14 +42,20 @@ def posts(request):
 
 
 
-@student_required
-def post(request, slug):
-	post = PostTeacher.objects.get(slug=slug)
-	context = {'post':post}
-	return render(request, 'student/post.html', context)
+# @student_required
+# def post(request, slug):
+# 	post = PostTeacher.objects.get(slug=slug)
+#     group = Groupe.objects.get(postteacher = post)
+# 	context = {'post':post, 'group':group}
+# 	return render(request, 'student/post.html', context)
 
     
-
+@student_required
+def post(request,slug):
+    post = PostTeacher.objects.get(slug=slug)
+    groups = Groupe.objects.filter(postteacher = post)
+    context = {'post':post, 'groups':groups}
+    return render(request, 'student/post.html', context)
 
 
               

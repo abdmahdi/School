@@ -79,6 +79,9 @@
 	<h1>{{post.headline}}</h1>
 	<h4>{{post.sub_headline}}</h4>
 	<br>
+	{% for groupe in group.all  %}
+	<h1>{{groupe.Days}}</h1>
+	{% endfor %}
 
 	<p>{{post.body|safe}}</p>
 </div>

@@ -62,7 +62,7 @@
 
 <div class="post-container">
 
-	<a class="btn btn-sm btn-primary" href="{% url 'HomeStudent' %}">&laquo Back to Posts</a>
+	<a class="btn btn-sm btn-primary" href="{% url 'Posts' %}">&laquo Back to Posts</a>
 {% comment %} 
 	{% if request.user.is_staff %}
 		 <a class="btn btn-sm btn-primary" href="{% url 'update_post' post.slug %}">Edit</a>
@@ -83,7 +83,7 @@
 	<label for="title">Groups</label>
 <select id="title" name="title">
  <option value="" selected>Please choose</option>
-	{% for group in post.groups.all  %}
+	{% for group in groups  %}
  <option value="{{group}}">{{group.Days}} // from : {{group.starttime}}   to : {{group.endstime}}</option>
  {% endfor %}
 </select>

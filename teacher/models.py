@@ -25,16 +25,7 @@ class Teacher(models.Model):
    def __str__(self):
         return f"{self.first_name}  \n   {self.last_name}"
 
-class Groupe(models.Model):
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
-    N_groupe = models.IntegerField()
-    Days = models.ForeignKey(Days, on_delete=models.DO_NOTHING)
-    starttime = models.TimeField()
-    endstime = models.TimeField()    
-    nombredeplace = models.IntegerField(default=None)
-    
-    def __str__(self):
-        return f"{self.Days} /// start at : {self.starttime} ends at {self.endstime} "
+
 
      
 class PostTeacher(models.Model):
@@ -49,7 +40,6 @@ class PostTeacher(models.Model):
    division = models.ForeignKey(Division, null=True, blank=True, on_delete=models.DO_NOTHING)
    Annee = models.ForeignKey(Annee, null=False, blank=False, on_delete=models.DO_NOTHING,default=None) 
    slug = models.SlugField(null=True, blank=True)
-   groups = models.ManyToManyField(Groupe)
    
    def __str__(self):
        return self.title 
@@ -69,3 +59,13 @@ class PostTeacher(models.Model):
        super().save(*args, **kwargs)   
 
 
+class Groupe(models.Model):
+    postteacher = models.ForeignKey(PostTeacher,on_delete=models.CASCADE ,null=True)
+    N_groupe = models.IntegerField()
+    Days = models.ForeignKey(Days, on_delete=models.DO_NOTHING)
+    starttime = models.TimeField()
+    endstime = models.TimeField()    
+    nombredeplace = models.IntegerField(default=None)
+    
+    def __str__(self):
+        return f"{self.Days} /// start at : {self.starttime} ends at {self.endstime} "

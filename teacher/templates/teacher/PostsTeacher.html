@@ -55,6 +55,7 @@
 					{% if request.user.is_teacher %}
 						| <a href="{% url 'update_post' post.slug %}">Edit</a>
 						| <a href="{% url 'delete_post' post.slug %}">Delete</a>
+						| <a href="{% url 'Groups' post.slug %}">Groups</a>
 					{% endif %} 
 					<hr>
 				</div>

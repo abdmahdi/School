@@ -84,7 +84,7 @@ def createPost(request):
             obj.save()
             form = PostForm()
             messages.success(request, "Successfully created")
-            return redirect('HomeTeacher')
+            return redirect('PostsTeacher')
           
   
     return render(request, 'teacher/post_teacher.html', {'form':form})  
@@ -99,7 +99,7 @@ def updatePost(request, slug):
 		form = PostForm(request.POST, request.FILES, instance=post)
 		if form.is_valid():
 			form.save()
-		return redirect('HomeTeacher')
+		return redirect('PostsTeacher')
 
 	context = {'form':form}
 	return render(request, 'teacher/post_teacher.html', context)
@@ -110,7 +110,7 @@ def deletePost(request, slug):
 
 	if request.method == 'POST':
 		post.delete()
-		return redirect('HomeTeacher')
+		return redirect('PostsTeacher')
 	context = {'item':post}
 	return render(request, 'teacher/delete.html', context)
 
@@ -155,25 +155,34 @@ def updateProfileTeacher(request):
 
 
 
+# @teacher_required
+# def post(request, slug):
+# 	post = PostTeacher.objects.get(slug=slug, teacher = request.user.teacher)
+#     group = PostTeacher.objects.get(slug=slug, teacher = request.user.teacher)
+# 	context = {'post':post}
+# 	return render(request, 'teacher/postteacher.html', context)
 @teacher_required
 def post(request, slug):
-	post = PostTeacher.objects.get(slug=slug, teacher = request.user.teacher)
-	context = {'post':post}
-	return render(request, 'teacher/postteacher.html', context)
-  
+      post = PostTeacher.objects.get(slug=slug, teacher = request.user.teacher)
+      groups = Groupe.objects.filter(postteacher = post)
+      context = {'post':post, 'groups':groups}
+      return render(request, 'teacher/postteacher.html', context)
+      
+      
 
 @teacher_required
-def creategroup(request):
+def creategroup(request,slug):
     form = GroupsForm()
     if request.method =='POST':
         form = GroupsForm(request.POST , request.FILES )  
         if form.is_valid():
               
             obj = form.save(commit = False)
+            obj.postteacher = PostTeacher.objects.get(slug=slug, teacher = request.user.teacher)
             obj.save()
             form = GroupsForm()
             messages.success(request, "Successfully created")
-            return redirect('createPost')
+            return redirect('PostsTeacher')
           
   
     return render(request, 'teacher/groups.html', {'form':form})    

@@ -8,7 +8,7 @@ class TeacherAdmin(admin.ModelAdmin):
     list_filter = ["wilaya","matier",'level']
  
 class TeacherPostAdmin(admin.ModelAdmin):
-    list_display = ["teacher","title","created"]
+    list_display = ["teacher","title","slug","created"]
     list_filter = ["matier",'level',"division"]
     
 admin.site.register(Teacher,TeacherAdmin)
