@@ -1,0 +1,101 @@
+{% extends 'student/main.html' %}
+{% load static %}
+{% block content %}
+
+<style type="text/css">
+	img{
+		max-width: 100%;
+		object-fit: cover;
+	}
+
+	.featured_image{
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	.post-container{
+			width: 900px;
+			margin: 0 auto;
+			padding-top: 20px;
+			padding-bottom: 20px;
+	}
+
+	.comments-wrapper{
+		margin-top: 50px;
+		padding: 10px;
+		border:1px solid var(--borderColor);
+		-webkit-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
+		-moz-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
+		box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
+	}
+
+	.comment{
+		display: flex;
+		padding: 15px;
+	}
+
+	.comment-author{
+		font-size: 14px;
+		font-weight: 700;
+		color: rgb(30, 174, 219) !important;
+		margin: 2px;
+	}
+
+	.author-pic{
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		margin-right: 10px;
+	}
+
+	.comment-body{
+
+		font-size: 14px;
+	}
+
+	@media screen and (max-width: 900px){
+		.post-container{
+			width: 95%;
+		}
+	}
+</style>
+
+<div class="post-container">
+
+	<a class="btn btn-sm btn-primary" href="{% url 'PostsSchool' %}">&laquo Back to Posts</a>
+
+	{% if request.user.is_school %}
+		 <a class="btn btn-sm btn-primary" href="{% url 'update_post' post.slug %}">Edit</a>
+		 <a class="btn btn-sm btn-danger" href="{% url 'delete_post' post.slug %}">Delete</a>
+	{% endif %} 
+
+	<img class="featured_image" src="{{post.image.url}}">
+
+	
+		<span class="tag">{{post.matier}}</span>
+	
+	<hr>
+
+	<h1>{{post.title}}</h1>
+	<h4>{{post.level}}</h4>
+	<h4>{{post.division}}</h4>
+	<h4>{{post.Annee}}</h4>	
+	<select id="title" name="title">
+		<option value="" selected>Please choose</option>
+		   {% for group in groups  %}
+		<option value="{{group}}">{{group.Days}} // from : {{group.starttime}}   to : {{group.endstime}}</option>
+		{% endfor %}
+	   </select>
+	
+	{% comment %} {% for group in  groups %}
+	<h1>{{group.starttime}}</h1>
+	{% endfor %} {% endcomment %}
+
+	<br>
+
+	<p>{{post.body|safe}}</p>
+	<h6>created by : {{post.school}} at : {{post.created}}</h6>
+
+</div>
+
+{% endblock content %}

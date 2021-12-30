@@ -13,6 +13,7 @@ from student.decorators import *
 from teacher.models import PostTeacher
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from student.filters import *
+from school.models import *
 
 @student_required
 def homestudent(request):
@@ -40,7 +41,27 @@ def posts(request):
 	context = {'posts':posts, 'myFilter':myFilter}
 	return render(request, 'student/posts.html', context)
 
-
+@student_required
+def postschool(request):
+    postss = PostSchool.objects.filter(active=True)
+    Filterschool = PostFilterSchool(request.GET, queryset=postss)
+    postss=Filterschool.qs
+    page = request.GET.get('page')
+    paginator = Paginator(postss, 5)
+    try:
+        
+        postss = paginator.page(page)
+    except PageNotAnInteger:
+       
+        postss = paginator.page(1)
+    except EmptyPage:
+       
+        postss = paginator.page(paginator.num_pages)
+    
+    context = {'postschool':postss, 'filterschool':Filterschool}  
+    return render(request, 'student/postschool.html', context)      
+    
+    
 
 # @student_required
 # def post(request, slug):
@@ -54,7 +75,9 @@ def posts(request):
 def post(request,slug):
     post = PostTeacher.objects.get(slug=slug)
     groups = Groupe.objects.filter(postteacher = post)
-    context = {'post':post, 'groups':groups}
+    posts = PostSchool.objects.get(slug=slug)
+    groupss = GroupeSchool.objects.filter(postschool = posts)
+    context = {'post':post, 'groups':groups, 'postschool':posts, 'groupschool':groupss}
     return render(request, 'student/post.html', context)
 
 

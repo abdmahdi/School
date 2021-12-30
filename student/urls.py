@@ -5,6 +5,7 @@ urlpatterns = [
     path('', homestudent, name="HomeStudent"),
     #POsts :: Post
     path('posts/', posts, name="Posts"),
+    path('postshool/', postschool, name="Postshool"),
     path('post/<slug:slug>/', post, name="post"),
     
     # Sign UP Student

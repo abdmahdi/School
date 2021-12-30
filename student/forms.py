@@ -63,12 +63,10 @@ class UserSignUp(UserCreationForm):
         level = self.cleaned_data.get('level')
         division = self.cleaned_data.get('division')
         annee = self.cleaned_data.get('annee')
-        pic = self.cleaned_data.get('pic')
         student = Student.objects.create(user=user,first_name=user.first_name, last_name = user.last_name,email=user.email,phone=phone,wilaya=wilaya
                                          ,level=level,division=division,annee=annee
                                          )
         student.matier.add(*self.cleaned_data.get('matier'))
-        student.pic = pic
        
         student.save()
         return user

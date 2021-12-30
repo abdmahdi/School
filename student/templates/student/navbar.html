@@ -45,6 +45,8 @@
 		
 		{% if request.user.is_authenticated and request.user.is_student %}
 		<li><a href="{% url 'Posts' %}">Posts</a></li>
+		<li><a href="{% url 'Postshool' %}">Post School</a></li>
+		
 		<li><a href="{% url 'StudentAccount' %}">account</a></li>
 		
 			<li><a href="{% url 'logoutStudent' %}">Logout</a></li>
@@ -54,10 +56,10 @@
 		<li><a href="{% url 'TeacherAccount' %}">account</a></li>
 		<li><a href="{% url 'logoutTeacher' %}">Logout</a></li>
 		{% elif request.user.is_authenticated and request.user.is_school %}
-		<li><a href="{% url 'PostsTeacher' %}">Posts</a></li>
+		<li><a href="{% url 'PostsSchool' %}">Posts</a></li>
         <li><a href="{% url 'createPost' %}">Create Post</a></li>
-		<li><a href="{% url 'TeacherAccount' %}">account</a></li>
-		<li><a href="{% url 'logoutTeacher' %}">Logout</a></li>
+		<li><a href="{% url 'SchoolAccount' %}">account</a></li>
+		<li><a href="{% url 'logoutSchool' %}">Logout</a></li>
 		{% else %}
 		<li><a href="{% url 'HomeTeacher' %}">Teacher</a></li>
         <li><a href="{% url 'HomeStudent' %}">Student</a></li>

@@ -11,7 +11,7 @@ class Student(models.Model):
     email = models.EmailField(unique=True,null=True)
     phone = models.IntegerField(null=True)
     wilaya = models.ForeignKey(Wilaya, on_delete=models.DO_NOTHING,null=True,unique=False)
-    pic = models.ImageField(null=True, upload_to="images", default="/user.png",unique=False)
+    pic = models.ImageField(null=True, blank=True, upload_to="images", default="user.png")
     level = models.ForeignKey(Level, on_delete=models.DO_NOTHING,null=True,unique=False)
     division = models.ForeignKey(Division, on_delete=models.DO_NOTHING,null=True,unique=False)
     annee = models.ForeignKey(Annee, on_delete=models.DO_NOTHING,null=True,unique=False)

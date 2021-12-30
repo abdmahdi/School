@@ -17,7 +17,7 @@ class Teacher(models.Model):
    email = models.CharField(max_length=200,unique=True,null=True)
    wilaya = models.ForeignKey(Wilaya, on_delete=models.DO_NOTHING, default=None)
    adress = models.CharField(max_length=200, default=None)
-   pic = models.ImageField(null=True, blank=True, upload_to="images", default="/user.png")
+   pic = models.ImageField(null=True, blank=True, upload_to="images", default="user.png")
    phone = models.IntegerField(null = True)
    level = models.ForeignKey(Level, blank=False, null=False, on_delete=models.DO_NOTHING,default=None)
    matier = models.ManyToManyField(Matier)
@@ -31,7 +31,7 @@ class Teacher(models.Model):
 class PostTeacher(models.Model):
    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE,null=True)
    title = models.CharField(max_length=200)
-   image =  models.ImageField(null=True, blank=True, upload_to="images", default="/images/placeholder.png")
+   image =  models.ImageField(null=True, blank=True, upload_to="images", default="placeholder.png")
    body = RichTextUploadingField(null=True, blank=True)
    created = models.DateTimeField(auto_now_add=True)
    active = models.BooleanField(default=False)
