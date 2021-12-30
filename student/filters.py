@@ -25,4 +25,4 @@ class PostFilterSchool(django_filters.FilterSet):
 		)
 	class Meta:
 		model = PostSchool
-		fields = ['school','matier','level','division','Annee']  
+		fields = ['matier','level','division','Annee']  

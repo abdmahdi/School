@@ -2,6 +2,10 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 
 
 <style type="text/css">
@@ -13,15 +17,50 @@
 		border:1px solid #888;
 	}
 </style>
+<script>
+
+	{% comment %} function Openform()
+	{
+		
+		document.getElementById('searchForm').style.display = '';
+		
+	}
+	function Closeform()
+	{
+		
+		document.getElementById('searchForm').style.display = 'none';
+		
+	} {% endcomment %}
+
+	var timesClicked = 0;
+
+$("#searchForm").click(Openform() {
+    timesClicked++;
+
+    if (timesClicked%2==0) {
+        //run second function
+		Closeform()
+    } else {
+        //run first function
+		Openform()
+
+    }
+})
+
+</script>
 
 <div class="main-container">
 	<h1>Posts</h1>
-	{% if request.user.is_staff %}
-		<a class="btn btn-warning" href="{% url 'create_post' %}">Create Post</a>
-	{% endif %}
-	<form id="searchForm" method="GET">
+	
+	<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-filter-right" viewBox="0 0 16 16", onclick="Openform()" onsecondclick="">
+		<path d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5z"/>
+	  </svg>
+	
+
+
+	<form id="searchForm" method="GET", style="display:none">
 		{{filterschool.form|crispy}}
-		
+
 		<input class="btn btn-primary" type="submit" value="search">
 	</form>
 	<br>
